@@ -36,7 +36,7 @@ class TaskRegistry:
             raise InvalidTaskHandler("handler must be callable")
         if task_type in self._handlers:
             raise DuplicateTaskType(f"task type already registered: {task_type}")
-        
+
         self._handlers[task_type] = handler
         
     def get(self, task_type: str) -> TaskHandler:

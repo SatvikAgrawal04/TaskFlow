@@ -17,10 +17,10 @@ class WorkQueueEmpty(Exception):
 
 
 class WorkQueue:
-    def __init__(self, *, maxsize: int = 0) -> None:
+    def __init__(self, *, maxsize: int = 1000) -> None:
         if maxsize < 0:
             raise ValueError("maxsize cannot be negative")
-        
+
         self._queue: Queue[str] = Queue(maxsize=maxsize)
         
     def enqueue(self, task_id: str, *, block: bool = False, timeout: float | None = None) -> None:
@@ -35,7 +35,7 @@ class WorkQueue:
             raise WorkQueueFull("work queue is full") from exc
     
     
-    def dequeue(self, *, block: bool = False, timeout: float | None = None) -> None:
+    def dequeue(self, *, block: bool = False, timeout: float | None = None) -> str:
         try:
             task_id = self._queue.get(block=block, timeout=timeout)
             log_event(logger, "task_dequeued", task_id=task_id, queue_depth=self.depth)

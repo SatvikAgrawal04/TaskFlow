@@ -37,6 +37,10 @@ class WorkQueueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             WorkQueue(maxsize=-1)
 
+    def test_default_maxsize_is_bounded(self):
+        queue = WorkQueue()
+        self.assertGreater(queue._queue.maxsize, 0)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -36,6 +36,7 @@ class Phase1FlowTests(unittest.TestCase):
         dequeued_task_id = queue.dequeue()
         dequeued_task = task_store[dequeued_task_id]
 
+        dequeued_task.mark_running("worker-01")
         result = executor.execute(dequeued_task, worker_id="worker-01")
         queue.task_done()
 
